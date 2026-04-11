@@ -329,6 +329,9 @@ You're set up. Here's what Cadence can do now:
 - **`CADENCE_CAPABILITIES.md`** — Full tables: commands, agents, every bundled skill
 - `/capabilities` — Guided tour of the same material
 
+**Optional visual layer:**
+- **`outputs/dashboards/`** — Open `cadence-hub.html` in a browser for a static home screen; `goals-scorecard.html` and `claims-board.html` mirror living-brain and core-claims (see `outputs/dashboards/README.md`).
+
 The system compounds over time. The more you use it, the sharper it gets.
 
 ---

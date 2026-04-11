@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadence Hub</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --text: #e7ecf3;
+      --muted: #8b9cb3;
+      --accent: #5b8def;
+      --accent-dim: #3d5a8a;
+      --border: #2a3a4f;
+      --radius: 10px;
+      --font: system-ui, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.25rem;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      gap: 0.65rem;
+    }
+    @media (min-width: 560px) {
+      .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      display: block;
+      padding: 0.9rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+    }
+    a.card {
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    a.card:hover, a.card:focus-visible {
+      border-color: var(--accent-dim);
+      background: #1e2a3d;
+      outline: none;
+    }
+    .card strong { color: var(--accent); font-weight: 600; }
+    .card span { display: block; font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+    .cmd {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: 0.8rem;
+      color: #a8c7ff;
+    }
+    ul.links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.links li { margin-bottom: 0.45rem; }
+    ul.links a { color: var(--accent); text-decoration: none; }
+    ul.links a:hover { text-decoration: underline; }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Cadence Hub</h1>
+    <p class="sub">Local home screen for your Cadence OS. Paths are relative to this repo.</p>
+
+    <section>
+      <h2>Slash commands</h2>
+      <div class="grid cols-2">
+        <div class="card"><strong>/morning</strong><span class="cmd">Daily brief — calendar, email, priorities</span></div>
+        <div class="card"><strong>/prep</strong><span class="cmd">Meeting prep — person or topic</span></div>
+        <div class="card"><strong>/eod</strong><span class="cmd">End-of-day review</span></div>
+        <div class="card"><strong>/weekly</strong><span class="cmd">Weekly review vs 90-day goals</span></div>
+        <div class="card"><strong>/research</strong><span class="cmd">Parallel research brief</span></div>
+        <div class="card"><strong>/write</strong><span class="cmd">Draft in your voice</span></div>
+        <div class="card"><strong>/capabilities</strong><span class="cmd">Tour of commands, agents &amp; skills</span></div>
+        <div class="card"><strong>/context-prime</strong><span class="cmd">Reload full context</span></div>
+      </div>
+      <p class="sub" style="margin-top:0.75rem;margin-bottom:0;">Type these in Claude Code.</p>
+    </section>
+
+    <section>
+      <h2>Dashboards</h2>
+      <div class="grid">
+        <a class="card" href="goals-scorecard.html"><strong>Goals &amp; scorecard</strong><span>90-day goals and weekly focus</span></a>
+        <a class="card" href="claims-board.html"><strong>Claims board</strong><span>Knowledge graph claims at a glance</span></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Repo</h2>
+      <ul class="links">
+        <li><a href="../../CADENCE_CAPABILITIES.md">CADENCE_CAPABILITIES.md</a> — full command / agent / skill reference</li>
+        <li><a href="../../CLAUDE.md">CLAUDE.md</a> — boot sequence &amp; rules</li>
+        <li><a href="../../README.md">README.md</a> — setup &amp; integrations</li>
+        <li><a href="../../knowledge/">knowledge/</a> — compounding brain</li>
+        <li><a href="../../context/">context/</a> — identity &amp; voice (local; may be gitignored)</li>
+      </ul>
+    </section>
+
+    <footer>
+      Template seed — customize or ask Claude to regenerate from your latest files.
+    </footer>
+  </div>
+</body>
+</html>

@@ -176,6 +176,7 @@ CADENCE_CAPABILITIES.md  ← Reference: all slash commands, agents, and bundled 
 context/           ← Read-only after /onboard. Who you are, how you think, your voice.
 knowledge/         ← Your compounding brain. Add to it, never delete from it.
 outputs/           ← Everything generated here. Versioned.
+outputs/dashboards/  ← Static HTML hub + goals + claims boards (open .html in a browser).
 inbox/             ← Drop raw captures here for triage.
 meeting-notes/     ← Searchable meeting archive.
 memory/            ← Claude's session memory. Updated automatically.

@@ -175,8 +175,9 @@ Each row is a folder under `.claude/skills/`. Descriptions come from each `SKILL
 
 1. Skim **this file** end-to-end once.
 2. Run **`/capabilities`** and ask questions about anything you will use weekly.
-3. Try **`/morning`** (or **`/context-prime`** then **`/research`** on a small topic) to exercise the stack.
-4. Pick **one skill** that matches your job (e.g. `article-writing`, `api-design`) and open its `SKILL.md` so you know the depth available.
+3. Open **`outputs/dashboards/cadence-hub.html`** in a browser for a static home screen (see `outputs/dashboards/README.md`).
+4. Try **`/morning`** (or **`/context-prime`** then **`/research`** on a small topic) to exercise the stack.
+5. Pick **one skill** that matches your job (e.g. `article-writing`, `api-design`) and open its `SKILL.md` so you know the depth available.
 
 ---
 
