@@ -12,6 +12,8 @@ Cadence turns Claude Code into a personal operating system that knows who you ar
 2. Read all files in `context/` — this is who I am and how I work
 3. Confirm context is loaded before starting any task
 
+**New to this repo:** Read `CADENCE_CAPABILITIES.md` at the root once, or run `/capabilities`, so you know every slash command, agent, and bundled skill.
+
 **Every task:**
 - Check `context/` is loaded before responding
 - If the task relates to writing: read `knowledge/01_style-guides/voice.md` and `context/VOICE_CALIBRATION.md`
@@ -117,26 +119,12 @@ When adding to the knowledge graph, title notes as the claim itself. This is wha
 
 ## Skills
 
-Cadence includes 31 pre-bundled skills in `.claude/skills/`. Use the `Skill` tool to invoke them before relevant tasks.
+There are **67** bundled skills under `.claude/skills/<name>/SKILL.md`. Each file’s YAML `description` defines when it applies.
 
-**Most-used for daily work:**
+- **Full catalog:** `CADENCE_CAPABILITIES.md` at the repo root (grouped by theme).
+- **Discovery:** `ls .claude/skills/` or run `/capabilities` for a guided tour.
 
-| Skill | When to use |
-|-------|------------|
-| `brainstorming` | Before any creative work, feature, or plan |
-| `write-a-prd` | Turning an idea into a product requirements doc |
-| `prd-to-plan` | Converting a PRD into an implementation plan |
-| `grill-me` | Pressure-testing an idea or plan before committing |
-| `edit-article` | Editing written content for clarity and impact |
-| `design-an-interface` | Designing a UI or user-facing flow |
-| `dispatching-parallel-agents` | Coordinating multiple independent agents |
-| `systematic-debugging` | Debugging anything that isn't working |
-| `verification-before-completion` | Before claiming any task is done |
-| `write-a-skill` | Creating a new custom skill for Cadence |
-
-Full list: `ls .claude/skills/`
-
-**Rule:** If a skill might apply (even 1% chance), invoke it before acting.
+**Rule:** If a skill might apply (even a small chance), read it before acting.
 
 ---
 

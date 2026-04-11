@@ -1,6 +1,6 @@
 ---
 name: onboard
-description: Interactive setup interview that builds your personalized Cadence OS. Run this once after cloning. Takes 30-60 minutes. Fills in context/, knowledge/, and memory/ with your real information.
+description: Interactive setup interview that builds your personalized Cadence OS. Run this once after cloning. Takes 30-60 minutes. Fills in context/, knowledge/, and memory/. Ends with a capabilities tour (CADENCE_CAPABILITIES.md or /capabilities) so you know every command, agent, and bundled skill.
 ---
 
 You are running the Cadence onboarding interview. Your job is to build a personalized operating system for this user by interviewing them, writing their context files as you go, and verifying everything at the end.
@@ -124,6 +124,7 @@ Ask:
 After receiving samples: analyze them. Note sentence length, vocabulary, structure, argument patterns. Use these observations in the file you write.
 
 → **Write `context/VOICE_CALIBRATION.md`** with real content and their actual writing samples embedded
+→ **Update `knowledge/01_style-guides/voice.md`** with the same voice in short bullet form (quick reference). The brain manifest routes to this file; it should not contradict `VOICE_CALIBRATION.md`.
 → Show 3-sentence summary: "Your voice is [X]. You write [Y]. What reads as off to you is [Z]."
 → Confirm.
 
@@ -168,6 +169,8 @@ Ask:
 → **Write `knowledge/00_user-brain/living-brain.md`** with real content
 → Confirm.
 
+**Optional — seed the knowledge graph:** If the user stated 2–3 strong, specific beliefs during the interview, offer to replace the placeholders in `knowledge/03_projects/core-claims.md` with those claims (or remind them to add claims later with `/add-claim`). Optionally capture 2–4 decision rules in `knowledge/03_projects/decision-principles.md` from what they said under "Decision Rules" in living-brain.
+
 ---
 
 ## Step 6: Integration Selection
@@ -192,30 +195,32 @@ For each integration they select, provide:
 **Notion:**
 > 1. Go to notion.so/my-integrations → New Integration → give it a name like "Cadence"
 > 2. Copy the Internal Integration Secret
-> 3. Open `.claude/settings.json` in this repo
-> 4. Find the commented-out Notion block and uncomment it
-> 5. Replace `${NOTION_API_KEY}` with your actual key
-> 6. Save the file and restart Claude Code
+> 3. Open `.claude/mcp-examples.md` and copy the **Notion** JSON block
+> 4. Merge it into `"mcpServers"` in `.claude/settings.json` (valid JSON — comma between entries). Set `NOTION_API_KEY` to your secret.
+> 5. Save and restart Claude Code
 
 **Gmail + Google Calendar:**
 > This requires OAuth setup. Go to console.cloud.google.com → create a project → enable Gmail API + Calendar API → create OAuth credentials → download JSON.
-> See README.md section "Connecting Gmail & Calendar" for the step-by-step guide.
+> See README.md and `.claude/mcp-examples.md` for the **Google** block to paste into `"mcpServers"`.
 > This takes about 20 minutes. Do you want to do it now or skip for now?
 
 **Slack:**
 > 1. Go to api.slack.com/apps → Create New App → From Scratch
 > 2. Add OAuth scopes: channels:read, chat:write, im:read
 > 3. Install to workspace → copy Bot User OAuth Token
-> 4. Uncomment the Slack block in `.claude/settings.json`
-> 5. Replace `${SLACK_BOT_TOKEN}` with your token
+> 4. Copy the **Slack** block from `.claude/mcp-examples.md` into `"mcpServers"` in `.claude/settings.json` and set `SLACK_BOT_TOKEN`
+
+**Linear** (optional): blocks are in `.claude/mcp-examples.md` — same merge process with `LINEAR_API_KEY`.
+
+**Brave Search** (optional): same file — `BRAVE_API_KEY`.
 
 **GitHub:**
 > 1. Go to github.com/settings/tokens → Generate new token (classic)
 > 2. Select scopes: repo, read:org
-> 3. Set `GITHUB_TOKEN` as an environment variable in your shell profile
-> The GitHub MCP is already configured in `.claude/settings.json`
+> 3. Set `GITHUB_TOKEN` as an environment variable in your shell profile (or use your tool’s secret store)
+> The GitHub MCP is already configured in `.claude/settings.json` and expects `${GITHUB_TOKEN}` in the environment.
 
-If they skip all: "No problem — you can add integrations anytime by running `/onboard` again or editing `.claude/settings.json` directly."
+If they skip all: "No problem — you can add integrations anytime by editing `.claude/settings.json` using `.claude/mcp-examples.md` as a reference."
 
 ---
 
@@ -244,23 +249,13 @@ Note: Scheduled tasks in Claude Code run when the app is open. For truly autonom
 
 After completing all sections:
 
-→ **Write `memory/MEMORY.md`** with routing entries for everything created:
+→ **Write `memory/MEMORY.md`** so it matches the structure in the repo template (routing table with section comments). At minimum, under **User**, add:
 
 ```markdown
-# Memory Index
-
-## User
 - [user-profile.md](./user-profile.md) — [one-line description of who this person is]
-
-## Feedback
-<!-- Empty — builds automatically from session corrections -->
-
-## Project
-<!-- Empty — fill in as active projects emerge -->
-
-## Reference
-<!-- Empty — add pointers to external systems as you connect them -->
 ```
+
+Leave **Feedback**, **Project**, and **Reference** sections present but empty unless the interview surfaced something to link immediately.
 
 → **Write `memory/user-profile.md`** with a brief summary of the user (role, expertise, working style, key context) drawn from the interview.
 
@@ -290,6 +285,22 @@ If they say yes, run `/morning` inline and show the result.
 
 ---
 
+## Step 10: Capabilities and skills (learning session)
+
+Tell the user:
+
+> Cadence includes **13 slash commands**, **11 agents**, and **67 optional skills** under `.claude/skills/` (each folder has a `SKILL.md`). Skills load when your task matches their description, or when you ask for them by name.
+>
+> The full reference is **`CADENCE_CAPABILITIES.md`** at the repository root — read it when you have 20–30 minutes.
+>
+> Or run **`/capabilities`** anytime for a guided walkthrough and Q&A on what to use first.
+
+Ask: "Do you want to run `/capabilities` now for a short tour, or read the doc on your own later?"
+
+If they want the tour now, follow `.claude/commands/capabilities.md` (read `CADENCE_CAPABILITIES.md` and personalize).
+
+---
+
 ## Final Message
 
 End with:
@@ -309,8 +320,14 @@ You're set up. Here's what Cadence can do now:
 - `/meeting-notes` — Paste a transcript, get structured notes
 - `/add-claim [insight]` — Add to your knowledge graph
 
-**Context management:**
+**Context and repo:**
 - `/context-prime` — Load your full context at the start of any session
+- `/commit` — Stage and create a git commit from current changes
+- `/code-review` — Review a GitHub PR (needs `gh` CLI and auth)
+
+**Learn the system:**
+- **`CADENCE_CAPABILITIES.md`** — Full tables: commands, agents, every bundled skill
+- `/capabilities` — Guided tour of the same material
 
 The system compounds over time. The more you use it, the sharper it gets.
 

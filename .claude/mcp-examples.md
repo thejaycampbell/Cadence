@@ -95,6 +95,7 @@ Open `.claude/settings.json` and add your chosen MCP inside `"mcpServers"`:
 ```json
 {
   "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
     "claude-mem@thedotmack": true
   },
   "mcpServers": {

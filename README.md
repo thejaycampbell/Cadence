@@ -73,7 +73,7 @@ Everything is personal. Nothing gets committed to GitHub (see `.gitignore`).
 
 ## Daily commands
 
-Once onboarded, these are your daily tools:
+Once onboarded, these are your tools:
 
 | Command | What it does |
 |---------|-------------|
@@ -86,6 +86,11 @@ Once onboarded, these are your daily tools:
 | `/meeting-notes` | Transcript → structured notes → updates INDEX and PEOPLE |
 | `/add-claim [insight]` | Add an atomic insight to your knowledge graph |
 | `/context-prime` | Load your full context at the start of any session |
+| `/commit` | Stage and create a git commit from current changes |
+| `/code-review [PR]` | Review a GitHub pull request via `gh` (requires auth) |
+| `/capabilities` | Guided tour of all commands, agents, and bundled skills |
+
+After `/onboard`, read **`CADENCE_CAPABILITIES.md`** once (or run **`/capabilities`**) for the full learning session on pre-built skills.
 
 ---
 
@@ -107,9 +112,8 @@ export GITHUB_TOKEN=ghp_your_token_here
 
 1. Go to [notion.so/my-integrations](https://www.notion.so/my-integrations) → New Integration
 2. Copy the Internal Integration Secret
-3. Open `.claude/settings.json` and uncomment the Notion block
-4. Replace `${NOTION_API_KEY}` with your key
-5. Restart Claude Code
+3. Open `.claude/mcp-examples.md`, copy the **Notion** JSON block, and merge it into `"mcpServers"` in `.claude/settings.json` (valid JSON — add a comma between entries). Put your secret in `NOTION_API_KEY`.
+4. Restart Claude Code
 
 ### Gmail + Google Calendar
 
@@ -126,7 +130,7 @@ OAuth setup required — about 20 minutes.
 1. Go to [api.slack.com/apps](https://api.slack.com/apps) → Create New App
 2. Add OAuth scopes: `channels:read`, `chat:write`, `im:read`
 3. Install to workspace → copy Bot User OAuth Token
-4. Uncomment the Slack block in `.claude/settings.json`
+4. Copy the **Slack** block from `.claude/mcp-examples.md` into `"mcpServers"` in `.claude/settings.json` and set `SLACK_BOT_TOKEN`
 
 ---
 
@@ -168,6 +172,7 @@ Add to your knowledge graph with `/add-claim [insight]`. Claude checks for dupli
 ## File structure
 
 ```
+CADENCE_CAPABILITIES.md  ← Reference: all slash commands, agents, and bundled skills.
 context/           ← Read-only after /onboard. Who you are, how you think, your voice.
 knowledge/         ← Your compounding brain. Add to it, never delete from it.
 outputs/           ← Everything generated here. Versioned.

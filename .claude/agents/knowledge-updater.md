@@ -1,6 +1,6 @@
 ---
 name: knowledge-updater
-description: Reviews session content for insights worth adding to the knowledge graph. Used by /eod and /weekly commands. Returns candidates for core-claims.md and decision-principles.md.
+description: Reviews session content for insights worth adding to the knowledge graph. Dispatched in parallel by /weekly. Returns candidates for core-claims.md and decision-principles.md.
 model: haiku
 ---
 
