@@ -1,0 +1,84 @@
+# Morning Brief — GitHub Actions
+#
+# Sends a daily morning brief to your email via Resend, even when Claude Code isn't open.
+#
+# SETUP (5 minutes):
+# 1. Go to resend.com → sign up → API Keys → Create API Key
+# 2. Go to your GitHub repo → Settings → Secrets and variables → Actions
+# 3. Add secret: ANTHROPIC_API_KEY (from console.anthropic.com/settings/keys)
+# 4. Add secret: RESEND_API_KEY (from resend.com)
+# 5. Add secret: BRIEF_TO_EMAIL (your email address)
+# 6. Uncomment the `schedule:` line below and push to GitHub
+#
+# The workflow generates a brief using your living-brain.md goals and sends it to your email.
+# For calendar/email integration in the brief, Claude Code (with MCPs) is still needed.
+# This workflow handles the "autonomous delivery when your laptop is closed" use case.
+
+name: Morning Brief
+
+on:
+  # Uncomment to enable — set your preferred time (UTC)
+  # schedule:
+  #   - cron: '0 12 * * 1-5'  # 8am ET weekdays (12pm UTC)
+
+  # Manual trigger for testing — remove once scheduled is working
+  workflow_dispatch:
+
+jobs:
+  morning-brief:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Generate morning brief
+        id: brief
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Read living-brain.md for goals context
+          GOALS=$(cat knowledge/00_user-brain/living-brain.md 2>/dev/null || echo "No goals file found.")
+
+          # Get today's date
+          TODAY=$(date +"%A, %B %d, %Y")
+
+          # Generate brief via Anthropic API
+          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d "{
+              \"model\": \"claude-haiku-4-5-20251001\",
+              \"max_tokens\": 1024,
+              \"messages\": [{
+                \"role\": \"user\",
+                \"content\": \"Today is $TODAY.\n\nHere is my living brain context:\n\n$GOALS\n\nGenerate a brief, direct morning brief. Include:\n1. A one-sentence framing of what today is about given my goals\n2. The single most important thing to move today\n3. One question to hold in mind throughout the day\n\nBe concise. No filler. Max 150 words.\"
+              }]
+            }")
+
+          # Extract content from response
+          BRIEF=$(echo "$RESPONSE" | python3 -c "import sys,json; data=json.load(sys.stdin); print(data['content'][0]['text'])" 2>/dev/null || echo "Failed to generate brief.")
+
+          # Save for next step
+          echo "BRIEF<<EOF" >> $GITHUB_OUTPUT
+          echo "$BRIEF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "TODAY=$TODAY" >> $GITHUB_OUTPUT
+
+      - name: Send email via Resend
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TO_EMAIL: ${{ secrets.BRIEF_TO_EMAIL }}
+          TODAY: ${{ steps.brief.outputs.TODAY }}
+          BRIEF: ${{ steps.brief.outputs.BRIEF }}
+        run: |
+          curl -s https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"from\": \"Cadence <brief@cadence.yourdomain.com>\",
+              \"to\": [\"$TO_EMAIL\"],
+              \"subject\": \"Morning Brief — $TODAY\",
+              \"text\": \"$BRIEF\n\n---\nCadence Morning Brief\nTo configure: edit .github/workflows/morning-brief.yml\"
+            }"

@@ -1,0 +1,36 @@
+# Personal context files — never commit these
+context/
+memory/
+
+# Environment and credentials
+.env
+.env.local
+.env.*
+*.credentials.json
+*.token.json
+credentials.json
+token.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+
+# Node (if any scripts are added)
+node_modules/
+npm-debug.log*
+
+# Python (if any scripts are added)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Temporary files
+*.tmp
+*.temp
