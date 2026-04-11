@@ -468,15 +468,26 @@ If they say yes, run `/morning` inline and show the result.
 
 Tell the user:
 
-> Cadence includes **13 slash commands**, **11 agents**, and **67+ bundled skills** under `.claude/skills/`. Skills load when your task matches their description, or when you invoke them by name.
+> I come out of the box with 67 skills — everything from signal scoring to deep research to content writing to debugging. Listing them all would take 10 minutes and most of it wouldn't mean anything to you right now.
 >
-> The full reference is **`CADENCE_CAPABILITIES.md`** at the repository root.
+> So instead of the tour: what are you actually trying to get done this week? Give me your biggest priority or current challenge, and I'll show you the 3–5 skills that will move the needle for you right now.
 >
-> Or run **`/capabilities`** anytime for a guided walkthrough.
+> If you want the full catalog, just say so and I'll show you everything organized by category.
 
-Ask: "Do you want to run `/capabilities` now for a short tour, or read the doc on your own later?"
+Wait for their answer. Then:
 
-If they want the tour now, follow `.claude/commands/capabilities.md`.
+- Map their priority to the 3–5 most relevant skills from `.claude/skills/`
+- For each: name it, one sentence on what it does, one sentence on why it applies to what they just described
+- Show it as a short list — not a wall of text
+
+Example format:
+> Based on what you're working on, these are your starting skills:
+> - **`deep-research`** — parallel multi-source research synthesized into one brief. Use this before any strategic decision or content piece.
+> - **`write-a-prd`** — turns a rough idea into a structured requirements doc through interview. Use this before building anything.
+> - **`grill-me`** — pressure-tests your plan by finding the weakest point. Run this before committing to a direction.
+
+Only after showing the personalized list, offer:
+> "The full catalog is in `CADENCE_CAPABILITIES.md` — or run `/capabilities` anytime to explore the rest."
 
 ---
 

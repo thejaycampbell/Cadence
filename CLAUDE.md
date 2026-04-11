@@ -79,10 +79,24 @@ When running multi-agent tasks:
 
 **End of session:**
 - Check if anything new emerged that belongs in `memory/` (decisions, preferences, project context, external references)
+- Before writing: check `memory/MEMORY.md` for an existing entry that covers the same topic — update it rather than creating a duplicate
+- If writing a new file: check that it doesn't contradict an existing one. Flag conflicts rather than silently overwriting.
 - If yes, write the memory file and update `memory/MEMORY.md`
 
 **Start of session:**
 - Read `memory/MEMORY.md` and load what's relevant to the current task
+
+---
+
+## Context Window Management
+
+Long sessions (2+ hours, large file operations, multi-step builds) consume context fast. When context is running low:
+
+- **Finish the current task** — don't start something new
+- **Write a session summary** to `memory/` before the window closes — decisions made, files changed, what's next
+- **Start a fresh session** and run `/context-prime` to reload — a fresh window with full context beats a full window with degraded reasoning
+
+Signs you're near the limit: responses getting shorter, losing track of earlier decisions, repeating yourself. When you notice these — wrap up and start fresh.
 
 ---
 
