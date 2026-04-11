@@ -24,6 +24,7 @@ Add patterns that dilute your voice, undermine your message, or make you cringe 
      - Headers that describe, not guide -->
 
 - [Add structural anti-patterns]
+- Content that has no value without its call-to-action — if removing the ask makes it pointless, the message isn't ready
 
 ## Tone
 

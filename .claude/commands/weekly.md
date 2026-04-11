@@ -15,7 +15,9 @@ Run my weekly review.
    - `memory/MEMORY.md` — active project context
    - All files in `context/` — check for staleness
 
-2. Dispatch 3 agents **in parallel**:
+2. If `knowledge/00_user-brain/signal-tracker.md` exists, also read it now.
+
+3. Dispatch 3 agents **in parallel**:
 
    **Agent 1 — weekly-reviewer**
    Analyze this week against the 90-day goals. What progress was made? What didn't move? What patterns emerged across meetings and work? What should be adjusted?
@@ -23,7 +25,10 @@ Run my weekly review.
    **Agent 2 — knowledge-updater**
    Review this week's output: meeting notes, inbox items, any research or writing. Surface anything that should be added to the knowledge graph as a new claim or refinement.
 
-   **Agent 3 — maintenance-checker** *(inline, no separate agent needed)*
+   **Agent 3 — pipeline-scorer** *(if signal-tracker.md exists)*
+   Invoke the `signal-scoring` skill. Apply decay to every entry in `signal-tracker.md` based on current date. Surface: newly HOT prospects, any that dropped tiers, any signals now expired (180+ days). Return a one-paragraph pipeline health summary.
+
+   **Agent 4 — maintenance-checker** *(inline, no separate agent needed)*
    Scan for staleness across the entire system:
    - **Claims decay:** Find any claims in `core-claims.md` where `Added:` or `Validated:` is more than 60 days ago and `Status: active`. Flag each one: "This claim is [N] days old — still true?"
    - **Goals drift:** Search for any files matching `*goals*`, `*90-day*`, or `*priorities*` outside of `living-brain.md`. If found, compare to `living-brain.md` — flag any contradictions or duplication. Living-brain.md is the single source of truth.
@@ -76,6 +81,9 @@ Run my weekly review.
 
 **Knowledge updates:**
 [New claims or principle updates added]
+
+**Pipeline health:** *(if signal tracker active)*
+[HOT / WARM / NURTURE / COLD counts — tier changes — expired signals removed]
 
 **Maintenance changes made:**
 [List of stale items confirmed and updated — or "nothing stale this week"]

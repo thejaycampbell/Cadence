@@ -269,18 +269,24 @@ Ask:
 
 Tell the user:
 
-> Let's connect Cadence to your tools. The more connections, the more Cadence can handle autonomously.
+> Let's connect Cadence to your tools. Three paths — pick one:
+>
+> **Quick Start (5 min):** Gmail + Google Calendar + Slack. Covers 80% of the value for daily rituals. Best first choice for most people.
+>
+> **Full Build (30–60 min):** Everything — Notion, Gmail, Calendar, Slack, plus optional tools. More setup, more capability.
+>
+> **Skip for now:** Add integrations later by editing `.claude/settings.json` using `.claude/mcp-examples.md` as a reference.
 
-Ask:
+If **Quick Start** or **Full Build**, ask: "Which tools do you want to connect? I'll guide you through each one."
 
-> "Which of these do you want to connect? I'll guide you through each one."
+For Quick Start, default to: Gmail + Google Calendar + Slack (in that order). Skip Notion and GitHub unless they ask.
 
 List options:
-- **Notion** — read/write pages, databases, tasks
-- **Gmail + Google Calendar** — email triage, meeting prep, scheduling context
-- **Slack** — message context, channel summaries
-- **GitHub** — repo access *(advanced — requires terminal setup)*
-- **None for now** — skip, add later
+- **Gmail + Google Calendar** — email triage, meeting prep, scheduling context *(Quick Start default)*
+- **Slack** — message context, channel summaries *(Quick Start default)*
+- **Notion** — read/write pages, databases, tasks *(Full Build)*
+- **GitHub** — repo access *(Full Build — advanced, requires terminal)*
+- **Fathom / Granola / Fireflies** — call recording and transcript access *(Full Build)*
 
 For each integration they select:
 
@@ -317,6 +323,31 @@ For each integration they select:
 If they skip all: "No problem — add integrations anytime by editing `.claude/settings.json` using `.claude/mcp-examples.md` as a reference."
 
 → **Mark Step 6 complete in `memory/onboarding-status.md`.**
+
+---
+
+## Step 6.5: Pipeline Setup (Optional)
+
+Ask:
+
+> "One optional step — do you track prospects, clients, or relationships you're actively working? If yes, I can set up a signal tracker that scores and decays those contacts over time. Takes 5 minutes and makes your weekly review significantly more useful."
+
+If yes:
+
+1. Create `knowledge/00_user-brain/signal-tracker.md` from the template (it already exists in the repo)
+2. Ask: "Tell me 3–5 people or companies you're actively tracking right now. Name, company, role, and what you know about them."
+3. For each: create an entry in `signal-tracker.md` with whatever signals you already know about them (funding, intro, engagement, etc.)
+4. Score each entry using the `signal-scoring` skill
+5. Add a routing entry to `memory/MEMORY.md`:
+   ```markdown
+   - [signal-tracker.md](../knowledge/00_user-brain/signal-tracker.md) — Prospect signal tracker, scored and decayed weekly
+   ```
+6. Add to `brain-manifest.md`:
+   ```
+   SIGNAL TRACKER        | 00_user-brain/signal-tracker.md
+   ```
+
+If no: skip and move to Step 7.
 
 ---
 

@@ -39,6 +39,13 @@ Write: $ARGUMENTS
    
    If the voice check fails on any point, fix it before showing the draft.
 
+6.5. **CTA filter** (always run for posts, emails, threads, and outreach):
+   Remove the call-to-action mentally. Re-read the content without the ask.
+   - If it still has value → the message passes. The CTA can stay.
+   - If it's pointless without the ask → it's a pitch in content's clothing. The substance isn't there yet. Rewrite the core message before adding the ask back.
+   
+   A message that only works because it ends with "book a call" isn't a message — it's a request. Fix the message first.
+
 7. Return the draft with a brief note: "Voice check passed. [Any specific notes on choices made]."
 
 8. Save to `outputs/[type]_[topic-slug]_v1.md`
