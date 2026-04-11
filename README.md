@@ -4,22 +4,18 @@ A personal agentic operating system built on Claude Code.
 
 Cadence turns Claude Code into a system that knows who you are, reasons through your frameworks, writes in your voice, handles your daily rituals, and gets sharper with every session.
 
-**The article told you to build context files. Cadence is what comes after that.**
+Loose context files are not enough on their own. Cadence adds **structure**: a defined identity layer, repeatable slash commands, parallel agents, and a compounding knowledge graph—so your context becomes a system you run every day, not a folder you forget.
 
 ---
 
 ## What Cadence does
 
-The article "I Don't Write Code. I Turned Claude Code Into My Personal Operating System" describes a system where you build text files that give Claude better context. That's a good start.
+- **Orchestrated commands** — Slash commands dispatch specialized agents in parallel. `/morning` runs three agents and synthesizes them into one daily brief.
+- **Agent fleet** — Eleven agents, each scoped to one job: calendar, email, research, writing, meeting prep, knowledge updates, and more.
+- **Compounding knowledge graph** — Claims and principles live in `knowledge/` and accumulate; past reasoning informs the next analysis.
+- **Daily rituals** — `/morning`, `/prep`, `/eod`, `/weekly`. Run on demand or wire automation (see below).
 
-Cadence goes further:
-
-- **Autonomous orchestrator** — slash commands dispatch specialized agents in parallel. `/morning` runs 3 agents simultaneously and synthesizes them into your daily brief.
-- **Agent fleet** — 11 specialized agents, each expert in one domain. Calendar, email, research, writing, meeting prep, knowledge management.
-- **Compounding knowledge graph** — every claim you capture compounds. Every decision has preserved rationale. Your past thinking shapes future analysis.
-- **Daily ritual automation** — `/morning`, `/prep`, `/eod`, `/weekly`. Run them manually or schedule them.
-
-The complexity is invisible. You type one command.
+The complexity stays in the repo. In the chat, you usually type one command.
 
 ---
 
@@ -27,9 +23,9 @@ The complexity is invisible. You type one command.
 
 - [Claude Pro or Max subscription](https://claude.ai) ($20–$100/month)
 - A GitHub account (free)
-- [Claude Code](https://claude.ai/code) — available via Claude.ai desktop app or IDE extension
+- [Claude Code](https://claude.ai/code) — Claude.ai desktop app or IDE extension
 
-That's it. No backend server. No deployment. No Node.js required.
+No backend server, no deployment, and no Node.js required for the core experience.
 
 ---
 
@@ -37,9 +33,9 @@ That's it. No backend server. No deployment. No Node.js required.
 
 ### 1. Create your repo from this template
 
-Click **"Use this template"** at the top of this GitHub repo → **"Create a new repository"**
+Click **Use this template** on this GitHub repo → **Create a new repository**.
 
-Give it a name (e.g., `my-cadence`), make it **private** (your context files will be personal), and create.
+Name it (e.g. `my-cadence`), keep it **private** if your context will be personal, and create.
 
 ### 2. Clone and open in Claude Code
 
@@ -48,155 +44,154 @@ git clone https://github.com/[your-username]/[your-repo-name]
 cd [your-repo-name]
 ```
 
-Open Claude Code in this directory:
-- **Desktop app**: File → Open → select the folder
-- **IDE extension**: Open the folder, then open Claude Code in the integrated terminal
+Open this folder in Claude Code:
 
-### 3. Run /onboard
+- **Desktop app:** File → Open → select the folder  
+- **IDE extension:** Open the folder, then open Claude Code from the integrated terminal
 
-In Claude Code, type:
+### 3. Run `/onboard`
+
+In Claude Code:
 
 ```
 /onboard
 ```
 
-Claude will interview you for 30–60 minutes. By the end, it will know:
-- Who you are and what you're working on
-- How you think through problems
-- How you write
-- How you want to be challenged
-- What you're trying to accomplish
+Claude interviews you for roughly 30–60 minutes. When you finish, it has populated:
 
-Everything is personal. Nothing gets committed to GitHub (see `.gitignore`).
+- Who you are and what you are working on  
+- How you think and decide  
+- How you write and how you want to be challenged  
+- What you are trying to accomplish  
+
+Personal files under `context/` and `memory/` stay local (see `.gitignore`).
 
 ---
 
-## Daily commands
+## Commands
 
-Once onboarded, these are your tools:
+After onboarding, these are the main entry points:
 
 | Command | What it does |
-|---------|-------------|
+|---------|----------------|
 | `/morning` | Daily brief — calendar + email + priorities, synthesized |
-| `/prep [name or topic]` | Meeting prep — research + history before any call |
+| `/prep [name or topic]` | Meeting prep — research + history before a call |
 | `/research [topic]` | Parallel research brief — multiple angles, one output |
 | `/write [type] [topic]` | Draft in your voice — research → outline → draft → voice check |
-| `/eod` | End-of-day review — what got done, what's next |
+| `/eod` | End-of-day review — what got done, what is next |
 | `/weekly` | Weekly review against your 90-day goals |
-| `/meeting-notes` | Transcript → structured notes → updates INDEX and PEOPLE |
+| `/meeting-notes` | Transcript → structured notes; updates meeting archive |
 | `/add-claim [insight]` | Add an atomic insight to your knowledge graph |
-| `/context-prime` | Load your full context at the start of any session |
+| `/context-prime` | Reload full personal context at the start of a session |
 | `/commit` | Stage and create a git commit from current changes |
 | `/code-review [PR]` | Review a GitHub pull request via `gh` (requires auth) |
-| `/capabilities` | Guided tour of all commands, agents, and bundled skills |
+| `/capabilities` | Guided tour of commands, agents, and bundled skills |
 
-After `/onboard`, read **`CADENCE_CAPABILITIES.md`** once (or run **`/capabilities`**) for the full learning session on pre-built skills.
+Read **`CADENCE_CAPABILITIES.md`** once, or run **`/capabilities`**, for the full map of commands, agents, and **67** bundled skills under `.claude/skills/`.
 
 ---
 
 ## Connecting integrations
 
-Cadence works without integrations — it uses your knowledge base and context files.
-With integrations, it can pull live calendar, email, and tool data.
+Cadence works without integrations using your markdown knowledge and context.
 
-### GitHub (pre-configured)
+With MCPs connected, commands can pull live calendar, email, and other tool data.
 
-Create a personal access token at [github.com/settings/tokens](https://github.com/settings/tokens) with `repo` and `read:org` scopes. Set it as an environment variable:
+### GitHub (pre-configured in `.claude/settings.json`)
+
+Create a personal access token at [github.com/settings/tokens](https://github.com/settings/tokens) with `repo` and `read:org` scopes:
 
 ```bash
-# Add to ~/.bashrc or ~/.zshrc
+# Add to your shell profile
 export GITHUB_TOKEN=ghp_your_token_here
 ```
 
 ### Notion
 
-1. Go to [notion.so/my-integrations](https://www.notion.so/my-integrations) → New Integration
-2. Copy the Internal Integration Secret
-3. Open `.claude/mcp-examples.md`, copy the **Notion** JSON block, and merge it into `"mcpServers"` in `.claude/settings.json` (valid JSON — add a comma between entries). Put your secret in `NOTION_API_KEY`.
-4. Restart Claude Code
+1. [notion.so/my-integrations](https://www.notion.so/my-integrations) → New integration → copy the Internal Integration Secret  
+2. Copy the **Notion** block from `.claude/mcp-examples.md` into `"mcpServers"` in `.claude/settings.json` (valid JSON; comma between entries). Set `NOTION_API_KEY`.  
+3. Restart Claude Code  
 
 ### Gmail + Google Calendar
 
-OAuth setup required — about 20 minutes.
+OAuth setup (~20 minutes):
 
-1. Go to [console.cloud.google.com](https://console.cloud.google.com)
-2. Create a project → Enable Gmail API + Google Calendar API
-3. Create OAuth credentials (Desktop app type) → Download JSON
-4. Follow the auth flow to generate a refresh token
-5. Add credentials to `.claude/settings.json` (see the commented block)
+1. [console.cloud.google.com](https://console.cloud.google.com) → new project → enable Gmail API and Google Calendar API  
+2. OAuth credentials (Desktop app) → download JSON  
+3. Complete the auth flow for a refresh token  
+4. Merge the **Google** block from `.claude/mcp-examples.md` into `.claude/settings.json`  
 
 ### Slack
 
-1. Go to [api.slack.com/apps](https://api.slack.com/apps) → Create New App
-2. Add OAuth scopes: `channels:read`, `chat:write`, `im:read`
-3. Install to workspace → copy Bot User OAuth Token
-4. Copy the **Slack** block from `.claude/mcp-examples.md` into `"mcpServers"` in `.claude/settings.json` and set `SLACK_BOT_TOKEN`
+1. [api.slack.com/apps](https://api.slack.com/apps) → Create New App  
+2. Scopes: `channels:read`, `chat:write`, `im:read`  
+3. Install to workspace → copy Bot User OAuth Token  
+4. Copy the **Slack** block from `.claude/mcp-examples.md` into `.claude/settings.json` and set `SLACK_BOT_TOKEN`  
 
 ---
 
-## Enabling the autonomous morning brief (optional)
+## Autonomous morning brief (optional)
 
-If you want a morning brief delivered to your email even when Claude Code isn't open:
+To receive a morning brief by email when Claude Code is not open:
 
-1. Sign up at [resend.com](https://resend.com) (free tier works)
-2. Get your Resend API key
-3. Go to your GitHub repo → Settings → Secrets and variables → Actions
-4. Add these secrets:
-   - `ANTHROPIC_API_KEY` — from [console.anthropic.com](https://console.anthropic.com/settings/keys)
-   - `RESEND_API_KEY` — from Resend dashboard
-   - `BRIEF_TO_EMAIL` — your email address
-5. Open `.github/workflows/morning-brief.yml` and uncomment the `schedule:` line
-6. Push to GitHub
+1. [resend.com](https://resend.com) — create an API key  
+2. Repo → **Settings** → **Secrets and variables** → **Actions** — add:  
+   - `ANTHROPIC_API_KEY` — [console.anthropic.com](https://console.anthropic.com/settings/keys)  
+   - `RESEND_API_KEY`  
+   - `BRIEF_TO_EMAIL`  
+3. In `.github/workflows/morning-brief.yml`, uncomment the `schedule:` line  
+4. Push to GitHub  
 
-The brief runs automatically on weekdays at the time you set (default: 8am ET).
+Default schedule: weekdays, 8am ET (adjust in the workflow).
 
 ---
 
-## How the knowledge graph works
+## Knowledge graph
 
-Your `knowledge/` directory is the compounding brain.
+`knowledge/` is the long-lived brain.
 
-**Core claims** (`knowledge/03_projects/core-claims.md`) are titled as declarative statements — specific, arguable, yours:
+**Core claims** in `knowledge/03_projects/core-claims.md` are declarative statements—specific, arguable, yours:
 
 ```
 "Shipped features are not delivered value."
 "Most SaaS companies confuse feature requests with customer focus."
 ```
 
-This is different from category-based notes. Claim titles force precision. They're searchable by meaning. They compound over time.
-
-Add to your knowledge graph with `/add-claim [insight]`. Claude checks for duplicates and contradictions before adding.
+Claim-style notes stay searchable and compound over time. Add with `/add-claim [insight]`; Claude can help deduplicate and surface tensions.
 
 ---
 
 ## File structure
 
 ```
-CADENCE_CAPABILITIES.md  ← Reference: all slash commands, agents, and bundled skills.
-context/           ← Read-only after /onboard. Who you are, how you think, your voice.
-knowledge/         ← Your compounding brain. Add to it, never delete from it.
-outputs/           ← Everything generated here. Versioned.
-outputs/dashboards/  ← Static HTML hub + goals + claims boards (open .html in a browser).
-inbox/             ← Drop raw captures here for triage.
-meeting-notes/     ← Searchable meeting archive.
-memory/            ← Claude's session memory. Updated automatically.
-.claude/           ← System configuration. Don't edit unless changing behavior.
+CADENCE_CAPABILITIES.md   ← Commands, agents, and bundled skills
+context/                  ← Identity, thinking models, voice (after /onboard)
+knowledge/                ← Claims, principles, style guides
+outputs/                  ← Generated artifacts
+outputs/dashboards/       ← Static HTML hub, goals, claims boards
+inbox/                    ← Raw captures for triage
+meeting-notes/            ← Meeting archive
+memory/                   ← Session routing and profile pointers
+.claude/                  ← Commands, agents, rules, skills, settings
 ```
 
-**What gets committed to GitHub:** System configuration (`.claude/`), knowledge base (`knowledge/`), meeting notes, outputs.
+**Typically committed:** `.claude/`, `knowledge/`, `meeting-notes/`, `outputs/`, and other non-ignored project files.
 
-**What never gets committed:** `context/` (personal identity files), `memory/` (session memory), `.env`, credential files. These are in `.gitignore`.
+**Ignored by default:** `context/`, `memory/`, `.env`, credential files (see `.gitignore`).
 
 ---
 
-## Adding a new ritual
+## Custom rituals
 
-Power users can add custom commands:
+1. Add a file in `.claude/commands/` (follow existing frontmatter and body pattern).  
+2. Add agents under `.claude/agents/` if you need new behavior.  
+3. Use `/onboard` again if you want to document scheduling or preferences.  
 
-1. Create a new file in `.claude/commands/` (e.g., `investor-update.md`)
-2. Write the command following the same pattern as existing commands
-3. Add any needed agents to `.claude/agents/`
-4. Run `/onboard` again to configure scheduling if needed
+---
+
+## Static dashboards
+
+Open **`outputs/dashboards/cadence-hub.html`** in a browser for a local home screen; **`goals-scorecard.html`** and **`claims-board.html`** mirror goals and claims. See **`outputs/dashboards/README.md`**.
 
 ---
 
