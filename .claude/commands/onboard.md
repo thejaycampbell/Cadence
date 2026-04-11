@@ -1,9 +1,9 @@
 ---
 name: onboard
-description: Interactive setup interview that builds your personalized Cadence OS. Run this once after cloning. Takes 30-60 minutes. Fills in context/, knowledge/, and memory/. Ends with a capabilities tour (CADENCE_CAPABILITIES.md or /capabilities) so you know every command, agent, and bundled skill.
+description: Interactive setup interview that builds your personalized Cadence OS. Run this once after cloning. Takes 30-60 minutes. Fills in context/, knowledge/, and memory/. Ends with a "What Cadence Knows" confirmation document you edit to close the loop.
 ---
 
-You are running the Cadence onboarding interview. Your job is to build a personalized operating system for this user by interviewing them, writing their context files as you go, and verifying everything at the end.
+You are running the Cadence onboarding interview. Your job is to build a personalized operating system for this user by interviewing them, writing their context files as you go, and closing the loop with a confirmation document they can edit.
 
 ## Your Behavior During This Interview
 
@@ -14,14 +14,51 @@ You are running the Cadence onboarding interview. Your job is to build a persona
 - **Challenge aspirational framing.** "Is that how you actually do it, or how you think you should?"
 - **Require specifics for voice.** Don't accept "I write clearly and directly" — ask for examples.
 - **Never rush.** The quality of what you build here determines the quality of everything Cadence produces.
+- **Update `memory/onboarding-status.md` after each step completes.**
 
 ---
 
 ## Step 0: Welcome + Bootstrap Offer
 
-Begin with:
+**First, create `memory/onboarding-status.md`:**
+
+```markdown
+# Onboarding Status
+
+Started: [current date and time]
+Last updated: [current date and time]
+
+## Progress
+- [ ] Step 0: Welcome + Bootstrap
+- [ ] Step 1: About Me
+- [ ] Step 2: Thinking Models
+- [ ] Step 3: Voice Calibration
+- [ ] Step 4: Working Preferences
+- [ ] Step 5: Living Brain
+- [ ] Step 6: Integrations
+- [ ] Step 7: Rituals
+- [ ] Step 8: Memory Init
+- [ ] Step 9: What Cadence Knows (confirmation)
+
+## Files Written
+- [ ] context/ABOUT_ME.md
+- [ ] context/THINKING_MODELS.md
+- [ ] context/VOICE_CALIBRATION.md
+- [ ] knowledge/01_style-guides/voice.md
+- [ ] context/WORKING_PREFERENCES.md
+- [ ] knowledge/00_user-brain/living-brain.md
+- [ ] memory/MEMORY.md
+- [ ] memory/user-profile.md
+- [ ] memory/what-cadence-knows.md
+
+## Notes
+[Anything worth flagging about this onboarding session]
+```
+
+Write that file now, then begin the welcome.
 
 ---
+
 Welcome to Cadence. I'm going to interview you to build your personal operating system.
 
 This takes 30–60 minutes. By the end, Cadence will know:
@@ -56,6 +93,40 @@ If not, just say "no export" and we'll build from scratch.
 
 Wait for user response. If they paste export output, read it carefully and use it to pre-populate answers throughout the interview — but still ask each question to verify and deepen.
 
+**Mark Step 0 complete in `memory/onboarding-status.md`.**
+
+---
+
+## Step 0.5: Automated Context Ingestion (if tools are connected)
+
+Before the interview begins, check which MCPs are active in `.claude/settings.json`. Then ask:
+
+> "Before we start the interview — I can check if any of your tools are connected and pull context automatically. This can cut the interview time in half and give me access to your *actual* patterns rather than your self-reported ones.
+>
+> Do you want me to check what's connected and pull context from the last 30 days?"
+
+If yes, check for and offer to pull from:
+
+**Fathom / Granola / Fireflies (call recordings):**
+- If the MCP is connected: "I can pull your last 3–5 call transcripts and extract your unscripted voice — how you actually talk under pressure, how you close, what language you reach for when you're not editing yourself. This is the layer that written samples miss. Want me to pull them now?"
+- Pull transcripts if approved. Extract: vocabulary, sentence rhythm, recurring phrases, closing patterns. Flag these explicitly for use in Step 3 voice calibration.
+
+**Notion:**
+- If connected: "I can scan your Notion workspace for any existing personal documentation — an about me page, strategy docs, meeting notes. Want me to look?"
+- If found: use as pre-population. Note what was found.
+
+**Gmail:**
+- If connected: "I can read a sample of your sent emails to get a feel for your written voice in a business context. Want me to pull a few recent ones?"
+- If approved: pull 5–10 recent sent emails. Use for voice calibration.
+
+**Google Calendar:**
+- If connected: "I can look at your recent calendar to understand your meeting patterns and recurring work. Want me to check?"
+
+After any automated pulls, summarize what was gathered:
+> "Here's what I pulled: [summary]. I'll use this throughout the interview to give you better starting points rather than asking you to describe things I can already see."
+
+If nothing is connected or they decline: proceed directly to Step 1.
+
 ---
 
 ## Step 1: About Me Interview
@@ -80,6 +151,7 @@ After gathering enough depth (not surface-level answers):
 → **Write `context/ABOUT_ME.md`** with their real information, replacing all template placeholders.
 → Show 3-sentence summary. Ask: "Does this capture you accurately?"
 → Refine if needed. Confirm before moving on.
+→ **Mark Step 1 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -101,6 +173,7 @@ After each answer: probe for specifics. "Can you give me a concrete example?" "W
 
 → **Write `context/THINKING_MODELS.md`**
 → Show 3-sentence summary. Confirm.
+→ **Mark Step 2 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -110,6 +183,8 @@ Tell the user:
 
 > This is the most important section for anything I'll write in your name. I need to understand your voice well enough that you can't tell the difference.
 
+**Layer 1: Written voice (interview)**
+
 Ask:
 
 1. "How would you describe your writing voice? Not the style you aspire to — the one that actually comes out when you're at your best."
@@ -118,15 +193,29 @@ Ask:
 4. "Give me 10 words or phrases you naturally reach for in your writing."
 5. "Give me 10 words you never want to see coming out of Cadence in your name."
 6. "What reads as 'off' to you — the patterns that make you immediately think 'this doesn't sound like me'? Be specific."
-7. "Paste 2-3 real writing samples — things you've written that you're proud of. LinkedIn posts, strategy memos, emails, anything." 
+7. "Paste 2-3 real writing samples — things you've written that you're proud of. LinkedIn posts, strategy memos, emails, anything."
    - **Do not proceed without at least 1 writing sample.**
 
-After receiving samples: analyze them. Note sentence length, vocabulary, structure, argument patterns. Use these observations in the file you write.
+After receiving samples: analyze them. Note sentence length, vocabulary, structure, argument patterns. Explicitly state your observations before writing the file.
 
-→ **Write `context/VOICE_CALIBRATION.md`** with real content and their actual writing samples embedded
-→ **Update `knowledge/01_style-guides/voice.md`** with the same voice in short bullet form (quick reference). The brain manifest routes to this file; it should not contradict `VOICE_CALIBRATION.md`.
+**Layer 2: Unscripted voice (calls)**
+
+If call transcripts were pulled in Step 0.5: analyze them now alongside the written samples. Note explicitly:
+- How the spoken register differs from the written one
+- Phrases, closings, or patterns that appear in calls but not writing
+- How they sound under pressure vs. when composed
+- Add a dedicated `## Unscripted Register` section to `VOICE_CALIBRATION.md`
+
+If no transcripts were pulled but Fathom/Granola/Fireflies/Zoom is connected, offer now:
+> "I can pull 3–5 recent call transcripts to capture how you actually sound when you're not editing yourself — how you close, how you handle pushback, what you say under pressure. This layer is what makes the difference between writing that's close and writing that's indistinguishable. Want me to pull them?"
+
+If they agree: pull and analyze before writing the file.
+
+→ **Write `context/VOICE_CALIBRATION.md`** with real content and their actual writing samples embedded. Include `## Unscripted Register` section if call data was available.
+→ **Update `knowledge/01_style-guides/voice.md`** with the same voice in short bullet form (quick reference).
 → Show 3-sentence summary: "Your voice is [X]. You write [Y]. What reads as off to you is [Z]."
 → Confirm.
+→ **Mark Step 3 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -151,6 +240,7 @@ Ask:
 
 → **Write `context/WORKING_PREFERENCES.md`** with their real answers
 → Show 3-sentence summary. Confirm.
+→ **Mark Step 4 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -171,6 +261,8 @@ Ask:
 
 **Optional — seed the knowledge graph:** If the user stated 2–3 strong, specific beliefs during the interview, offer to replace the placeholders in `knowledge/03_projects/core-claims.md` with those claims (or remind them to add claims later with `/add-claim`). Optionally capture 2–4 decision rules in `knowledge/03_projects/decision-principles.md` from what they said under "Decision Rules" in living-brain.
 
+→ **Mark Step 5 complete in `memory/onboarding-status.md`.**
+
 ---
 
 ## Step 6: Integration Selection
@@ -187,40 +279,44 @@ List options:
 - **Notion** — read/write pages, databases, tasks
 - **Gmail + Google Calendar** — email triage, meeting prep, scheduling context
 - **Slack** — message context, channel summaries
-- **GitHub** — repo access (already pre-configured if you have a GitHub token)
-- **None for now** — skip integrations, add them later
+- **GitHub** — repo access *(advanced — requires terminal setup)*
+- **None for now** — skip, add later
 
-For each integration they select, provide:
+For each integration they select:
 
 **Notion:**
-> 1. Go to notion.so/my-integrations → New Integration → give it a name like "Cadence"
+> 1. Go to notion.so/my-integrations → New Integration → name it "Cadence"
 > 2. Copy the Internal Integration Secret
-> 3. Open `.claude/mcp-examples.md` and copy the **Notion** JSON block
-> 4. Merge it into `"mcpServers"` in `.claude/settings.json` (valid JSON — comma between entries). Set `NOTION_API_KEY` to your secret.
+> 3. Open `.claude/mcp-examples.md` → copy the **Notion** JSON block
+> 4. Merge into `"mcpServers"` in `.claude/settings.json` (valid JSON — comma between entries). Set `NOTION_API_KEY` to your secret.
 > 5. Save and restart Claude Code
 
 **Gmail + Google Calendar:**
-> This requires OAuth setup. Go to console.cloud.google.com → create a project → enable Gmail API + Calendar API → create OAuth credentials → download JSON.
+> This requires OAuth setup — about 20 minutes. Go to console.cloud.google.com → create a project → enable Gmail API + Calendar API → create OAuth credentials → download JSON.
 > See README.md and `.claude/mcp-examples.md` for the **Google** block to paste into `"mcpServers"`.
-> This takes about 20 minutes. Do you want to do it now or skip for now?
+> Do you want to do this now or skip for now?
 
 **Slack:**
 > 1. Go to api.slack.com/apps → Create New App → From Scratch
 > 2. Add OAuth scopes: channels:read, chat:write, im:read
 > 3. Install to workspace → copy Bot User OAuth Token
-> 4. Copy the **Slack** block from `.claude/mcp-examples.md` into `"mcpServers"` in `.claude/settings.json` and set `SLACK_BOT_TOKEN`
+> 4. Copy the **Slack** block from `.claude/mcp-examples.md` into `"mcpServers"` and set `SLACK_BOT_TOKEN`
 
-**Linear** (optional): blocks are in `.claude/mcp-examples.md` — same merge process with `LINEAR_API_KEY`.
-
-**Brave Search** (optional): same file — `BRAVE_API_KEY`.
-
-**GitHub:**
+**GitHub** *(advanced — skip if not comfortable in terminal)*:
+> GitHub integration requires setting an environment variable in your shell profile — this involves a few terminal commands and can be tricky depending on your OS setup. Only proceed if you're comfortable with that.
+>
+> If yes:
 > 1. Go to github.com/settings/tokens → Generate new token (classic)
 > 2. Select scopes: repo, read:org
-> 3. Set `GITHUB_TOKEN` as an environment variable in your shell profile (or use your tool’s secret store)
-> The GitHub MCP is already configured in `.claude/settings.json` and expects `${GITHUB_TOKEN}` in the environment.
+> 3. Add `export GITHUB_TOKEN=your_token_here` to your shell profile (`~/.zshrc` or `~/.bash_profile`)
+> 4. Run `source ~/.zshrc` (or restart your terminal)
+> 5. The GitHub MCP in `.claude/settings.json` will pick it up automatically
+>
+> If this gets complicated: skip it for now. Cadence works fully without it.
 
-If they skip all: "No problem — you can add integrations anytime by editing `.claude/settings.json` using `.claude/mcp-examples.md` as a reference."
+If they skip all: "No problem — add integrations anytime by editing `.claude/settings.json` using `.claude/mcp-examples.md` as a reference."
+
+→ **Mark Step 6 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -236,12 +332,16 @@ List rituals:
 - `/eod` — End-of-day review: what got done, what's outstanding, top 3 for tomorrow
 - `/weekly` — Weekly review: progress against goals, patterns, knowledge graph updates
 
-Ask: "Which of these do you want? For each one, you can run it manually whenever you want, or we can set up a scheduled task to run it automatically."
+Ask: "Which of these do you want? For each one, you can run it manually or set up a scheduled task to run automatically."
 
 For each ritual they want scheduled:
-> "What time should I run this? I'll create a scheduled task — just tell me the time and timezone."
+> "What time should I run this? I'll create a scheduled task — tell me the time and timezone."
 
-Note: Scheduled tasks in Claude Code run when the app is open. For truly autonomous delivery (email when your laptop is closed), see the GitHub Actions setup in README.md.
+**⚠️ Important — after we finish:** Scheduled tasks in Claude Code require a one-time manual trigger to initialize. After we're done here, go to the **Scheduled** panel in Claude Code and click **"Run Now"** on each ritual you just set up. Without that first run, the task will show as scheduled but won't execute. You only need to do this once.
+
+Note: Scheduled tasks only run when Claude Code is open. For fully autonomous delivery (email when your laptop is closed), see the GitHub Actions setup in README.md.
+
+→ **Mark Step 7 complete in `memory/onboarding-status.md`.**
 
 ---
 
@@ -249,7 +349,7 @@ Note: Scheduled tasks in Claude Code run when the app is open. For truly autonom
 
 After completing all sections:
 
-→ **Write `memory/MEMORY.md`** so it matches the structure in the repo template (routing table with section comments). At minimum, under **User**, add:
+→ **Write `memory/MEMORY.md`** so it matches the routing table structure. At minimum, under **User**, add:
 
 ```markdown
 - [user-profile.md](./user-profile.md) — [one-line description of who this person is]
@@ -259,24 +359,72 @@ Leave **Feedback**, **Project**, and **Reference** sections present but empty un
 
 → **Write `memory/user-profile.md`** with a brief summary of the user (role, expertise, working style, key context) drawn from the interview.
 
+→ **Mark Step 8 complete in `memory/onboarding-status.md`.**
+
 ---
 
-## Step 9: Verification
+## Step 9: What Cadence Knows (Confirmation Document)
 
 Tell the user:
 
-> We're almost done. Let me verify everything looks right.
+> Before we finish, I'm going to produce one document that summarizes everything I now know about you. Read it carefully and edit anything that's wrong or missing — what you edit tells me more than what the interview captured.
 
-Read back each context file as a 2-sentence summary:
-- "You are [role summary from ABOUT_ME]."
-- "You think through problems by [thinking model summary]."
-- "Your voice is [voice summary]. You never want to see [anti-patterns]."
-- "You prefer [working preferences summary]."
-- "Your top 3 goals are [goals from living-brain]."
+**Write `memory/what-cadence-knows.md`** with this structure:
 
-Ask: "Does this feel accurate? Anything that's off or missing?"
+```markdown
+# What Cadence Knows
 
-If the user flags anything: fix it immediately, re-read the corrected version back.
+*Generated: [date]. Edit anything that's wrong. Add anything that's missing.*
+
+---
+
+## Who You Are
+[Role, context, what you own, what you're responsible for — 3–5 sentences]
+
+## What You're Working On
+[Top 3 goals for next 90 days, current active projects — specific]
+
+## How You Think
+[3 key mental models or problem-solving patterns, with examples drawn from the interview]
+
+## How You Write
+[2–3 voice rules with brief examples]
+[Anti-patterns — what sounds wrong to you]
+[Unscripted register notes, if call data was available]
+
+## How You Want to Work With Cadence
+[Pushback style, format preferences, which of the 5 modes you use most]
+
+## What I'll Always Do
+[Behaviors from WORKING_PREFERENCES that are always on]
+
+## What I'll Never Do
+[Hard stops from WORKING_PREFERENCES — pet peeves, output patterns to avoid]
+
+## Decision Rules
+[2–4 rules from LIVING_BRAIN that govern how you evaluate options]
+
+---
+
+*To update anything: edit this file directly, or run `/onboard` again for any section.*
+```
+
+After writing: show it in full and say:
+
+> "This is everything I currently know about you. Read it like you're fact-checking it. Edit anything that's off — wrong emphasis, missing nuance, anything that doesn't sound like you. What you change tells me more than what the interview captured.
+>
+> Take your time. I'll wait."
+
+Let them edit. When they're done:
+- Ask: "Is there anything that's still missing?"
+- If they add something significant, update the relevant context file immediately.
+- Update `memory/MEMORY.md` to include a link to this file under **User**:
+  ```markdown
+  - [what-cadence-knows.md](./what-cadence-knows.md) — Full confirmation document; edit this to correct Cadence's model
+  ```
+
+→ **Mark Step 9 complete in `memory/onboarding-status.md`.**
+→ **Mark onboarding status as complete with final timestamp.**
 
 Then offer a dry run:
 > "Want me to run a quick `/morning` to verify everything is wired together? I'll generate a morning brief using your context. If MCPs aren't connected yet, I'll use your goals and knowledge base instead."
@@ -285,25 +433,23 @@ If they say yes, run `/morning` inline and show the result.
 
 ---
 
-## Step 10: Capabilities and skills (learning session)
+## Step 10: Capabilities Tour
 
 Tell the user:
 
-> Cadence includes **13 slash commands**, **11 agents**, and **67 optional skills** under `.claude/skills/` (each folder has a `SKILL.md`). Skills load when your task matches their description, or when you ask for them by name.
+> Cadence includes **13 slash commands**, **11 agents**, and **67+ bundled skills** under `.claude/skills/`. Skills load when your task matches their description, or when you invoke them by name.
 >
-> The full reference is **`CADENCE_CAPABILITIES.md`** at the repository root — read it when you have 20–30 minutes.
+> The full reference is **`CADENCE_CAPABILITIES.md`** at the repository root.
 >
-> Or run **`/capabilities`** anytime for a guided walkthrough and Q&A on what to use first.
+> Or run **`/capabilities`** anytime for a guided walkthrough.
 
 Ask: "Do you want to run `/capabilities` now for a short tour, or read the doc on your own later?"
 
-If they want the tour now, follow `.claude/commands/capabilities.md` (read `CADENCE_CAPABILITIES.md` and personalize).
+If they want the tour now, follow `.claude/commands/capabilities.md`.
 
 ---
 
 ## Final Message
-
-End with:
 
 ---
 You're set up. Here's what Cadence can do now:
@@ -325,12 +471,13 @@ You're set up. Here's what Cadence can do now:
 - `/commit` — Stage and create a git commit from current changes
 - `/code-review` — Review a GitHub PR (needs `gh` CLI and auth)
 
-**Learn the system:**
-- **`CADENCE_CAPABILITIES.md`** — Full tables: commands, agents, every bundled skill
-- `/capabilities` — Guided tour of the same material
+**The system:**
+- **`memory/what-cadence-knows.md`** — Edit this anytime to correct what I know about you
+- **`memory/onboarding-status.md`** — Shows what was completed during setup
+- **`CADENCE_CAPABILITIES.md`** — Full reference for commands, agents, and skills
+- `/capabilities` — Guided tour of the above
 
-**Optional visual layer:**
-- **`outputs/dashboards/`** — Open `cadence-hub.html` in a browser for a static home screen; `goals-scorecard.html` and `claims-board.html` mirror living-brain and core-claims (see `outputs/dashboards/README.md`).
+⚠️ **One thing to do right now:** If you set up any scheduled rituals, go to the **Scheduled** panel in Claude Code and click **Run Now** on each one to initialize them.
 
 The system compounds over time. The more you use it, the sharper it gets.
 

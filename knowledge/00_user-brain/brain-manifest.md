@@ -7,6 +7,7 @@ Format: `LABEL | path` (paths are relative to `knowledge/`)
 ---
 
 USER'S BRAIN          | 00_user-brain/living-brain.md
+ICP EVOLUTION         | 00_user-brain/icp-evolution.md
 VOICE GUIDE           | 01_style-guides/voice.md
 ANTI-PATTERNS         | 01_style-guides/anti-patterns.md
 KILL CRITERIA         | 01_style-guides/kill-criteria.md
