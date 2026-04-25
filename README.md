@@ -1,3 +1,4 @@
+[![RepoRanker](https://reporanker.com/badge/thejaycampbell/Cadence)](https://reporanker.com/repos/thejaycampbell/Cadence)
 # Cadence
 
 A personal agentic operating system built on Claude Code.
